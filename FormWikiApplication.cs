@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -97,6 +98,54 @@ namespace WikiApplication_AT2
                 ListViewItem lvi = new ListViewItem(information.GetName());
                 lvi.SubItems.Add(information.GetCategory());
                 listViewWiki.Items.Add(lvi);
+            }
+        }
+        
+        // 6.4 Create a custom method to populate the ComboBox when the Form Load method is called. The six categories must be read from a simple text file.
+        private void FormWikiApplication_Load(object sender, EventArgs e)
+        {
+            PopulateComboBox();
+        }
+
+        private void PopulateComboBox()
+        {
+            comboBoxCategory.Items.Clear();
+            LoadTextFile("categories.txt");
+        }
+
+        private void LoadTextFile(string categoryTextFileName)
+        {
+            var categoryData = string.Empty;
+
+            if (File.Exists(categoryTextFileName))
+            {
+                StreamReader stream = new StreamReader(categoryTextFileName);
+                
+                while (!stream.EndOfStream)
+                {
+                    try
+                    {
+                        categoryData = stream.ReadLine();
+                        if (categoryData != null)
+                        {
+                            comboBoxCategory.Items.Add(categoryData);
+                        }
+                    }
+                    catch (FileLoadException ex)
+                    {
+                        Trace.TraceError(ex.ToString());
+                        MessageBox.Show("Unable to load categories.txt file.", "Categories not loaded", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    catch (IOException ex)
+                    {
+                        Trace.TraceError(ex.ToString());
+                        MessageBox.Show("Unable to load categories.txt file, the file may be corrupted or not be in the correct text file format.", "Categories not loaded", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            } 
+            else
+            {
+                MessageBox.Show("Text file categories.txt does not exist.", "Categories file does not exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

@@ -261,6 +261,7 @@
             this.Controls.Add(this.labelName);
             this.Name = "FormWikiApplication";
             this.Text = "Wiki Application";
+            this.Load += new System.EventHandler(this.FormWikiApplication_Load);
             this.groupBoxStructure.ResumeLayout(false);
             this.groupBoxStructure.PerformLayout();
             this.ResumeLayout(false);
