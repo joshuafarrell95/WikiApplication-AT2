@@ -16,5 +16,8 @@ namespace WikiApplication_AT2
         {
             InitializeComponent();
         }
+
+
+        private List<Information> listWiki = new List<Information>;
     }
 }
