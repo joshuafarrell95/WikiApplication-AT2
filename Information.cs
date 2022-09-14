@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WikiApplication_AT2
 {
-    internal class Information
+    internal class Information : IComparable<Information>
     {
         private string name;
         private string category;
@@ -52,6 +52,13 @@ namespace WikiApplication_AT2
         public string GetDefinition()
         {
             return definition;
+        }
+        #endregion
+
+        #region Utilities
+        public int CompareTo(Information info)
+        {
+            return name.CompareTo(info.name);
         }
         #endregion
     }
