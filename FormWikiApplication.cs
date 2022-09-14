@@ -20,10 +20,13 @@ namespace WikiApplication_AT2
         }
 
         // 6.2 Create a global List<T> of type Information called Wiki.
+        #region 6.2
         private List<Information> Wiki = new List<Information>();
+        #endregion
 
         // 6.3 Create a button method to ADD a new item to the list.
         // Use a TextBox for the Name input, ComboBox for the Category, Radio group for the Structure and Multiline TextBox for the Definition.
+        #region 6.3
         private void ButtonAdd_MouseClick(object sender, MouseEventArgs e)
         {
             AddInformation();
@@ -100,8 +103,10 @@ namespace WikiApplication_AT2
                 listViewWiki.Items.Add(lvi);
             }
         }
-        
+        #endregion
+
         // 6.4 Create a custom method to populate the ComboBox when the Form Load method is called. The six categories must be read from a simple text file.
+        #region 6.4
         private void FormWikiApplication_Load(object sender, EventArgs e)
         {
             PopulateComboBox();
@@ -148,5 +153,19 @@ namespace WikiApplication_AT2
                 MessageBox.Show("Text file categories.txt does not exist.", "Categories file does not exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        #endregion
+
+        // 6.5 Create a custom ValidName method which will take a parameter string value from the Textbox Name and returns a Boolean after checking for duplicates.
+        // Use the built in List<T> method “Exists” to answer this requirement.
+        #region 6.5
+        private bool ValidName(string newName)
+        {
+            if (Wiki.Exists(w => w.GetName() == newName))
+            {
+                return true;
+            }
+            return false;
+        }
+        #endregion
     }
 }
