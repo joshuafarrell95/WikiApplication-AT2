@@ -17,7 +17,9 @@ namespace WikiApplication_AT2
             InitializeComponent();
         }
 
+        // 6.2 Create a global List<T> of type Information called Wiki.
+        private List<Information> Wiki = new List<Information>();
 
-        private List<Information> listWiki = new List<Information>;
+
     }
 }

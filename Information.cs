@@ -6,27 +6,36 @@ using System.Threading.Tasks;
 
 namespace WikiApplication_AT2
 {
+    // 6.1 Create a separate class file to hold the four data items of the Data Structure(use the Data Structure Matrix as a guide).
+    // Use private properties for the fields which must be of type “string”. The class file must have separate setters and getters,
+    // add an appropriate IComparable for the Name attribute. Save the class as “Information.cs”.
+
+    // This class implements IComparable for an Information class object
     internal class Information : IComparable<Information>
     {
+        // The fields are private properties of type string
         private string name;
         private string category;
         private string structure;
         private string definition;
 
-        #region Setters and Getters
-        public void SetName(string newName)
+        #region Constructors
+        public Information()
         {
-            name = newName;
-        }
 
+        }
+        #endregion
+
+        // The class uses separate getters and setters
+        #region Getters and Setters
         public string GetName()
         {
             return name;
         }
 
-        public void SetCategory(string newCategory)
+        public void SetName(string newName)
         {
-            category = newCategory;
+            name = newName;
         }
 
         public string GetCategory()
@@ -34,9 +43,9 @@ namespace WikiApplication_AT2
             return category;
         }
 
-        public void SetStructure(string newStructure)
+        public void SetCategory(string newCategory)
         {
-            structure = newStructure;
+            category = newCategory;
         }
 
         public string GetStructure()
@@ -44,17 +53,23 @@ namespace WikiApplication_AT2
             return structure;
         }
 
-        public void SetDefinition(string newDefinition)
+        public void SetStructure(string newStructure)
         {
-            definition = newDefinition;
+            structure = newStructure;
         }
 
         public string GetDefinition()
         {
             return definition;
         }
+
+        public void SetDefinition(string newDefinition)
+        {
+            definition = newDefinition;
+        }
         #endregion
 
+        // This class uses an overloaded CompareTo statement for the Name attribute
         #region Utilities
         public int CompareTo(Information info)
         {
