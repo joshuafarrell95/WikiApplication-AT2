@@ -112,6 +112,18 @@ namespace WikiApplication_AT2
                 listViewWiki.Items.Add(lvi);
             }
         }
+
+        private void ListViewWiki_MouseClick(object sender, MouseEventArgs e)
+        {
+            int selectedIndex = GetSelectedIndex();
+            Trace.TraceInformation(selectedIndex.ToString());
+        }
+
+        private int GetSelectedIndex()
+        {
+            return listViewWiki.SelectedIndices[0];
+        }
+
         #endregion
 
         // 6.4 Create a custom method to populate the ComboBox when the Form Load method is called. The six categories must be read from a simple text file.
@@ -174,6 +186,21 @@ namespace WikiApplication_AT2
                 return true;
             }
             return false;
+        }
+        #endregion
+
+        // 6.6 Create two methods to highlight and return the values from the Radio button GroupBox.
+        // The first method must return a string value from the selected radio button (Linear or Non-Linear).
+        // The second method must send an integer index which will highlight an appropriate radio button.
+        #region 6.6
+        private string GetRadioButton()
+        {
+
+        }
+
+        private void SetRadioButton(int indx)
+        {
+
         }
         #endregion
     }

@@ -165,6 +165,7 @@
             this.listViewWiki.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderName,
             this.columnHeaderCategory});
+            this.listViewWiki.FullRowSelect = true;
             this.listViewWiki.HideSelection = false;
             this.listViewWiki.Location = new System.Drawing.Point(280, 42);
             this.listViewWiki.Name = "listViewWiki";
@@ -172,6 +173,7 @@
             this.listViewWiki.TabIndex = 10;
             this.listViewWiki.UseCompatibleStateImageBehavior = false;
             this.listViewWiki.View = System.Windows.Forms.View.Details;
+            this.listViewWiki.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListViewWiki_MouseClick);
             // 
             // columnHeaderName
             // 
