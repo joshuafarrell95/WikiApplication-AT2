@@ -49,10 +49,6 @@ namespace WikiApplication_AT2
                 /* Commit the class object to the Wiki */
                 Wiki.Add(addInformation);
             }
-            else
-            {
-                statusStrip.Items.Add("Fill in all the details for Wiki");
-            }
             Wiki.Sort();
             ClearTextBoxes("record");
             DisplayList();
@@ -60,13 +56,26 @@ namespace WikiApplication_AT2
 
         private bool CheckAllGUIElements()
         {
-            if (!string.IsNullOrEmpty(textBoxName.Text) &&
-                !string.IsNullOrEmpty(comboBoxCategory.Text) && 
-                (!string.IsNullOrEmpty(radioButtonLinear.Text) || 
-                !string.IsNullOrEmpty(radioButtonNonLinear.Text)) &&
-                !string.IsNullOrEmpty(textBoxDefinition.Text))
+            if (ValidName(textBoxName.Text))
             {
-                return true;
+                if (!string.IsNullOrEmpty(textBoxName.Text) &&
+                    !string.IsNullOrEmpty(comboBoxCategory.Text) &&
+                    (!string.IsNullOrEmpty(radioButtonLinear.Text) ||
+                    !string.IsNullOrEmpty(radioButtonNonLinear.Text)) &&
+                    !string.IsNullOrEmpty(textBoxDefinition.Text))
+                {
+                    return true;
+                }
+                else
+                {
+                    statusStrip.Items.Add("Fill in all the details for Wiki");
+                }
+            }
+            else
+            {
+                statusStrip.Items.Add("Record " + textBoxName.Text + " already exists.");
+                // Add binary search code here
+                // Add highlight code here
             }
             return false;
         }
@@ -160,7 +169,7 @@ namespace WikiApplication_AT2
         #region 6.5
         private bool ValidName(string newName)
         {
-            if (Wiki.Exists(w => w.GetName() == newName))
+            if (!Wiki.Exists(w => w.GetName() == newName))
             {
                 return true;
             }
