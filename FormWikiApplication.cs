@@ -337,9 +337,14 @@ namespace WikiApplication_AT2
             Wiki.Sort();
             DisplayList();
         }
-
         #endregion
 
+        // 6.10 Create a button method that will use the builtin binary search to find a Data Structure name.
+        // If the record is found the associated details will populate the appropriate input controls and highlight the name in the ListView.
+        // At the end of the search process the search input TextBox must be cleared.
+        #region 6.10
+
+        #endregion
 
         private void WikiToUI(int ind)
         {
