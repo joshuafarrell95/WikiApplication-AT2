@@ -227,6 +227,18 @@ namespace WikiApplication_AT2
         }
         #endregion
 
+        // 6.7 Create a button method that will delete the currently selected record in the ListView.
+        // Ensure the user has the option to backout of this action by using a dialog box.
+        // Display an updated version of the sorted list at the end of this process.
+        #region 6.7
+        private void ButtonDelete_MouseClick(object sender, MouseEventArgs e)
+        {
+            int selectedRecord = GetSelectedIndex();
 
+
+        }
+        #endregion
+
+       
     }
 }
