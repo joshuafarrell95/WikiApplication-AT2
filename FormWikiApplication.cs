@@ -333,6 +333,14 @@ namespace WikiApplication_AT2
         }
         #endregion
 
+        // 6.9 Create a single custom method that will sort and then display the Name and Category from the wiki information in the list.
+        #region 6.9
+
+
+
+        #endregion
+
+
         private void WikiToUI(int ind)
         {
             textBoxName.Text = Wiki[ind].GetName();
@@ -340,5 +348,9 @@ namespace WikiApplication_AT2
             SetStructureRadioButton(ind);
             textBoxDefinition.Text = Wiki[ind].GetDefinition();
         }
+
+
+
+
     }
 }
