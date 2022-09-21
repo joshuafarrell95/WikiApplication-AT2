@@ -121,7 +121,15 @@ namespace WikiApplication_AT2
 
         private int GetSelectedIndex()
         {
-            return listViewWiki.SelectedIndices[0];
+            try
+            {
+                return listViewWiki.SelectedIndices[0];
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Trace.TraceError(ex.Message);
+                return -1;
+            }
         }
 
         #endregion
@@ -233,29 +241,36 @@ namespace WikiApplication_AT2
         #region 6.7
         private void ButtonDelete_MouseClick(object sender, MouseEventArgs e)
         {
+            statusStrip.Items.Clear();
+            
             int selectedRecord = GetSelectedIndex();
-
-            var userDecision = MessageBox.Show("Are you sure you want to delete the selected record " + Wiki[selectedRecord].GetName() + "?",
-                "Confirm record deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            if (userDecision == DialogResult.Yes)
+            if (selectedRecord != -1)
             {
-                try
+                var userDecision = MessageBox.Show("Are you sure you want to delete the selected record " + Wiki[selectedRecord].GetName() + "?",
+                    "Confirm record deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (userDecision == DialogResult.Yes)
                 {
-                    //if (Wiki[selectedRecord].GetName() != "")
-                    //{
-                    Wiki[selectedRecord] = null;
-                    //}
+                    try
+                    {
+                        Wiki.RemoveAt(selectedRecord);
+                    }
+                    catch (ArgumentOutOfRangeException ex)
+                    {
+                        Trace.TraceError(ex.ToString());
+                        statusStrip.Items.Add("Please select a valid record to delete");
+                    }
                 }
-                catch (ArgumentOutOfRangeException ex)
+                /* Record not deleted */
+                else
                 {
-                    Trace.TraceError(ex.ToString());
-                    statusStrip.Items.Add("Please select a valid record to delete");
+                    statusStrip.Items.Add("Record " + Wiki[selectedRecord].GetName() + " not deleted");
                 }
             }
+            /* No record selected */
             else
             {
-                statusStrip.Items.Add("Record " + Wiki[selectedRecord].GetName() + " not deleted");
+                statusStrip.Items.Add("No valid record selected");
             }
             DisplayList();
         }
