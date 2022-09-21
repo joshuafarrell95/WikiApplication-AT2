@@ -49,9 +49,8 @@ namespace WikiApplication_AT2
                 /* Commit the class object to the Wiki */
                 Wiki.Add(addInformation);
             }
-            Wiki.Sort();
             ClearTextBoxes("record");
-            DisplayList();
+            SortWiki();
         }
 
         private bool CheckAllGUIElements()
@@ -272,7 +271,7 @@ namespace WikiApplication_AT2
             {
                 statusStrip.Items.Add("No valid record selected");
             }
-            DisplayList();
+            SortWiki();
         }
         #endregion
 
@@ -327,16 +326,17 @@ namespace WikiApplication_AT2
                     statusStrip.Items.Add("Please add a record to the wiki");
                 }
             }
-
-            Wiki.Sort();
-            DisplayList();
+            SortWiki();
         }
         #endregion
 
         // 6.9 Create a single custom method that will sort and then display the Name and Category from the wiki information in the list.
         #region 6.9
-
-
+        private void SortWiki()
+        {
+            Wiki.Sort();
+            DisplayList();
+        }
 
         #endregion
 
