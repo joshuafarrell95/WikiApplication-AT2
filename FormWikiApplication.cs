@@ -282,6 +282,8 @@ namespace WikiApplication_AT2
         #region 6.8
         private void ButtonEdit_MouseClick(object sender, MouseEventArgs e)
         {
+            statusStrip.Items.Clear();
+            
             int selectedRecord = GetSelectedIndex();
             if (selectedRecord != -1)
             {
