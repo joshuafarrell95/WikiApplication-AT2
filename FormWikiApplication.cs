@@ -276,6 +276,21 @@ namespace WikiApplication_AT2
         }
         #endregion
 
-       
+        // 6.8 Create a button method that will save the edited record of the currently selected item in the ListView.
+        // All the changes in the input controls will be written back to the list.
+        // Display an updated version of the sorted list at the end of this process.
+        #region 6.8
+        private void ButtonEdit_MouseClick(object sender, MouseEventArgs e)
+        {
+            int selectedRecord = GetSelectedIndex();
+            if (selectedRecord != -1)
+            {
+
+
+            }
+        }
+        #endregion
+
+        
     }
 }

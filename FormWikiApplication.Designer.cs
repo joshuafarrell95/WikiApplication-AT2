@@ -203,6 +203,7 @@
             this.buttonEdit.TabIndex = 12;
             this.buttonEdit.Text = "EDIT";
             this.buttonEdit.UseVisualStyleBackColor = true;
+            this.buttonEdit.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ButtonEdit_MouseClick);
             // 
             // buttonDelete
             // 
