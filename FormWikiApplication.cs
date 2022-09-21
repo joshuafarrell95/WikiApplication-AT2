@@ -235,7 +235,29 @@ namespace WikiApplication_AT2
         {
             int selectedRecord = GetSelectedIndex();
 
+            var userDecision = MessageBox.Show("Are you sure you want to delete the selected record " + Wiki[selectedRecord].GetName() + "?",
+                "Confirm record deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
+            if (userDecision == DialogResult.Yes)
+            {
+                try
+                {
+                    //if (Wiki[selectedRecord].GetName() != "")
+                    //{
+                    Wiki[selectedRecord] = null;
+                    //}
+                }
+                catch (ArgumentOutOfRangeException ex)
+                {
+                    Trace.TraceError(ex.ToString());
+                    statusStrip.Items.Add("Please select a valid record to delete");
+                }
+            }
+            else
+            {
+                statusStrip.Items.Add("Record " + Wiki[selectedRecord].GetName() + " not deleted");
+            }
+            DisplayList();
         }
         #endregion
 
