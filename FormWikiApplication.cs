@@ -283,27 +283,62 @@ namespace WikiApplication_AT2
         private void ButtonEdit_MouseClick(object sender, MouseEventArgs e)
         {
             statusStrip.Items.Clear();
+            string oldName;
+            string newName;
             
             int selectedRecord = GetSelectedIndex();
             if (selectedRecord != -1)
             {
                 try
                 {
-                    Wiki[selectedRecord].SetName(textBoxName.Text);
+                    oldName = Wiki[selectedRecord].GetName();
+                    newName = textBoxName.Text;
+                    
+                    Wiki[selectedRecord].SetName(newName);
                     Wiki[selectedRecord].SetCategory(comboBoxCategory.Text);
                     Wiki[selectedRecord].SetStructure(GetStructureRadioButton());
                     Wiki[selectedRecord].SetDefinition(textBoxDefinition.Text);
+
+                    /* Record name changed */
+                    if (oldName != newName)
+                    {
+                        statusStrip.Items.Add("Record " + oldName + " edited and renamed to " + newName);
+                    }
+                    /* Record name unchanged */
+                    else
+                    {
+                        statusStrip.Items.Add("Record " + oldName + " edited");
+                    }
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {
                     Trace.TraceError(ex.Message);
                 }
             }
+            /* No record selected */
+            else
+            {
+                if (Wiki.Count > 0)
+                {
+                    statusStrip.Items.Add("Please select a record to edit");
+                }
+                else
+                {
+                    statusStrip.Items.Add("Please add a record to the wiki");
+                }
+            }
+
             Wiki.Sort();
             DisplayList();
         }
         #endregion
 
-        
+        private void WikiToUI(int ind)
+        {
+            textBoxName.Text = Wiki[ind].GetName();
+            comboBoxCategory.Text = Wiki[ind].GetCategory();
+            SetStructureRadioButton(ind);
+            textBoxDefinition.Text = Wiki[ind].GetDefinition();
+        }
     }
 }
