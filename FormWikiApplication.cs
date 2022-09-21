@@ -43,7 +43,7 @@ namespace WikiApplication_AT2
                 /* Set the new Information object's attributes */
                 addInformation.SetName(textBoxName.Text);
                 addInformation.SetCategory(comboBoxCategory.Text);
-                addInformation.SetStructure("Non-Linear");
+                addInformation.SetStructure(GetStructureRadioButton());
                 addInformation.SetDefinition(textBoxDefinition.Text);
 
                 /* Commit the class object to the Wiki */
@@ -193,15 +193,40 @@ namespace WikiApplication_AT2
         // The first method must return a string value from the selected radio button (Linear or Non-Linear).
         // The second method must send an integer index which will highlight an appropriate radio button.
         #region 6.6
-        private string GetRadioButton()
+        private string GetStructureRadioButton()
         {
-
+            string rbValue = "";
+            foreach (RadioButton rb in groupBoxStructure.Controls.OfType<RadioButton>())
+            {
+                if (rb.Checked)
+                {
+                    rbValue = rb.Text;
+                    break;
+                }
+                else
+                {
+                    rbValue = "Other";
+                }
+            }
+            return rbValue;
         }
 
-        private void SetRadioButton(int indx)
+        private void SetStructureRadioButton(int ind)
         {
-
+            foreach (RadioButton rb in groupBoxStructure.Controls.OfType<RadioButton>())
+            {
+                if (rb.Text == Wiki[ind].GetStructure())
+                {
+                    rb.Checked = true;
+                }
+                else
+                {
+                    rb.Checked = false;
+                }
+            }
         }
         #endregion
+
+
     }
 }
