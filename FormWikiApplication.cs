@@ -73,7 +73,7 @@ namespace WikiApplication_AT2
             else
             {
                 statusStrip.Items.Add("Record " + textBoxName.Text + " already exists.");
-                // Add binary search code here
+                SearchRecord(textBoxName.Text);
                 // Add highlight code here
             }
             return false;
@@ -343,6 +343,51 @@ namespace WikiApplication_AT2
         // If the record is found the associated details will populate the appropriate input controls and highlight the name in the ListView.
         // At the end of the search process the search input TextBox must be cleared.
         #region 6.10
+        private void ButtonSearch_MouseClick(object sender, MouseEventArgs e)
+        {
+            SearchRecord(textBoxSearch.Text);
+        }
+
+        private void SearchRecord(string searchString)
+        {
+            statusStrip.Items.Clear();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                Information findInfo = new Information();
+                findInfo.SetName(searchString);
+                int foundIndex = Wiki.BinarySearch(findInfo);
+
+                if (foundIndex >= 0)
+                {
+                    listViewWiki.SelectedItems.Clear();
+                    listViewWiki.Items[foundIndex].Selected = true;
+                    listViewWiki.Focus();
+
+                    textBoxName.Text = Wiki[foundIndex].GetName();
+                    comboBoxCategory.Text = Wiki[foundIndex].GetCategory();
+                    SetStructureRadioButton(foundIndex);
+                    textBoxDefinition.Text = Wiki[foundIndex].GetDefinition();
+
+                    // Add highlight code here
+                    statusStrip.Items.Add(searchString + " found and highlighted");
+                }
+                /* Not found */
+                else
+                {
+                    statusStrip.Items.Add(searchString + " cannot be found in the Wiki");
+                    textBoxSearch.Clear();
+                    textBoxSearch.Focus();
+                }
+            }
+            /* Search text box empty */
+            else
+            {
+                statusStrip.Items.Add("Please enter a search term in the search textbox");
+                textBoxSearch.Focus();
+            }
+        }
+
 
         #endregion
 
@@ -354,8 +399,6 @@ namespace WikiApplication_AT2
             textBoxDefinition.Text = Wiki[ind].GetDefinition();
         }
 
-
-
-
+        
     }
 }
