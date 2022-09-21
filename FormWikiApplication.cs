@@ -285,9 +285,20 @@ namespace WikiApplication_AT2
             int selectedRecord = GetSelectedIndex();
             if (selectedRecord != -1)
             {
-
-
+                try
+                {
+                    Wiki[selectedRecord].SetName(textBoxName.Text);
+                    Wiki[selectedRecord].SetCategory(comboBoxCategory.Text);
+                    Wiki[selectedRecord].SetStructure(GetStructureRadioButton());
+                    Wiki[selectedRecord].SetDefinition(textBoxDefinition.Text);
+                }
+                catch (ArgumentOutOfRangeException ex)
+                {
+                    Trace.TraceError(ex.Message);
+                }
             }
+            Wiki.Sort();
+            DisplayList();
         }
         #endregion
 
