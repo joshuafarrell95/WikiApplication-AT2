@@ -10,6 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+// Joshua, M153428
+// 5/10/2022
+
 namespace WikiApplication_AT2
 {
     public partial class FormWikiApplication : Form
@@ -438,6 +441,7 @@ namespace WikiApplication_AT2
         // All Wiki data is stored/retrieved using a binary reader/writer file format.
         #region 6.14
         const string DEFAULT_FILE_NAME = "WikiData.dat";
+        string currentFileName = DEFAULT_FILE_NAME;
 
         private void ButtonLoad_MouseClick(object sender, MouseEventArgs e)
         {
@@ -458,6 +462,8 @@ namespace WikiApplication_AT2
                     loadedFileName = Path.GetFileName(loadedFileName);
 
                     statusStrip.Items.Add("File " + loadedFileName + " loaded successfully");
+
+                    currentFileName = loadedFileName;
                 }
             }
         }
@@ -561,14 +567,104 @@ namespace WikiApplication_AT2
 
         // 6.15 The Wiki application will save data when the form closes.
         #region 6.15
+        private void FormWikiApplication_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            string message = "";
+            bool isWikiNotEmpty = false;
 
+            if (Wiki.Count > 0)
+            {
+                message = "Are you sure you want to close Wiki Application? \r\n" +
+                "The wiki data will be automatically saved as " + currentFileName + ".";
+                isWikiNotEmpty = true;
+            }
+            else
+            {
+                message = "Are you sure you want to close Wiki Application?";
+            }
+            string title = "Confirm Wiki Application closure?";
+
+            var userDecision = MessageBox.Show(message, title, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+            /* If the user clicks on OK, save the data before closing if there is at least one record, */
+            /* otherwise, don't save an empty Wiki */
+            if (userDecision == System.Windows.Forms.DialogResult.OK)
+            {
+                if (isWikiNotEmpty)
+                {
+                    if (currentFileName != DEFAULT_FILE_NAME)
+                    {
+                        SaveWikiData(currentFileName);
+                    }
+                    else
+                    {
+                        SaveWikiData(DEFAULT_FILE_NAME);
+                    }
+                }
+            }
+            /* Else stop the form from closing */
+            else
+            {
+                e.Cancel = true;
+            }
+        }
         #endregion
 
         // 6.16 All code is required to be adequately commented.
         // Map the programming criteria and features to your code/methods by adding comments above the method signatures.
         // Ensure your code is compliant with the CITEMS coding standards (refer http://www.citems.com.au/).
         #region 6.16
+        private void TextBoxName_MouseEnter(object sender, EventArgs e)
+        {
+            DisplayToolTip("Enter the Data Structure Name here, or double click on this text box to clear all fields for this record.", textBoxName);
+        }
 
-        #endregion
+        private void ComboBoxCategory_MouseEnter(object sender, EventArgs e)
+        {
+            DisplayToolTip("Select a Category here from this combo box.", comboBoxCategory);
+        }
+
+        private void RadioButtonLinear_MouseEnter(object sender, EventArgs e)
+        {
+            DisplayToolTip("Click on this radio button for a linear structure. \r\n" +
+                "Clicking this radio button will clear the non-linear radio button.", radioButtonLinear);
+        }
+
+        private void RadioButtonNonLinear_MouseEnter(object sender, EventArgs e)
+        {
+            DisplayToolTip("Click on this radio button for a non-linear structure. \r\n" +
+                "Clicking this radio button will clear the linear radio button.", radioButtonNonLinear);
+        }
+
+        private void TextBoxDefinition_MouseEnter(object sender, EventArgs e)
+        {
+            DisplayToolTip("Enter the Definition here.", textBoxDefinition);
+        }
+
+        private void DisplayToolTip(string message, TextBox textbox)
+        {
+            toolTip.SetToolTip(textbox, message);
+        }
+
+        private void DisplayToolTip(string message, ComboBox cb)
+        {
+            toolTip.SetToolTip(cb, message);
+        }
+
+        private void DisplayToolTip(string message, RadioButton rd)
+        {
+            toolTip.SetToolTip(rd, message);
+        }
+
+        private void DisplayToolTip(string message, ListView listView)
+        {
+            toolTip.SetToolTip(listView, message);
+        }
+
+        private void DisplayToolTip(string message, Button button)
+        {
+            toolTip.SetToolTip(button, message);
+        }
+        #endregion 
     }
 }

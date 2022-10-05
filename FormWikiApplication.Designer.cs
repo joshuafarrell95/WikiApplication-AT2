@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.labelName = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.labelCategory = new System.Windows.Forms.Label();
@@ -49,6 +50,7 @@
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonLoad = new System.Windows.Forms.Button();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.groupBoxStructure.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,6 +70,7 @@
             this.textBoxName.Size = new System.Drawing.Size(182, 20);
             this.textBoxName.TabIndex = 1;
             this.textBoxName.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.TextBoxName_MouseDoubleClick);
+            this.textBoxName.MouseEnter += new System.EventHandler(this.TextBoxName_MouseEnter);
             // 
             // labelCategory
             // 
@@ -85,6 +88,7 @@
             this.comboBoxCategory.Name = "comboBoxCategory";
             this.comboBoxCategory.Size = new System.Drawing.Size(182, 21);
             this.comboBoxCategory.TabIndex = 3;
+            this.comboBoxCategory.MouseEnter += new System.EventHandler(this.ComboBoxCategory_MouseEnter);
             // 
             // groupBoxStructure
             // 
@@ -107,6 +111,7 @@
             this.radioButtonNonLinear.TabStop = true;
             this.radioButtonNonLinear.Text = "Non-Linear";
             this.radioButtonNonLinear.UseVisualStyleBackColor = true;
+            this.radioButtonNonLinear.MouseEnter += new System.EventHandler(this.RadioButtonNonLinear_MouseEnter);
             // 
             // radioButtonLinear
             // 
@@ -118,6 +123,7 @@
             this.radioButtonLinear.TabStop = true;
             this.radioButtonLinear.Text = "Linear";
             this.radioButtonLinear.UseVisualStyleBackColor = true;
+            this.radioButtonLinear.MouseEnter += new System.EventHandler(this.RadioButtonLinear_MouseEnter);
             // 
             // labelDefinition
             // 
@@ -135,6 +141,7 @@
             this.textBoxDefinition.Name = "textBoxDefinition";
             this.textBoxDefinition.Size = new System.Drawing.Size(239, 214);
             this.textBoxDefinition.TabIndex = 6;
+            this.textBoxDefinition.MouseEnter += new System.EventHandler(this.TextBoxDefinition_MouseEnter);
             // 
             // labelSearch
             // 
@@ -269,6 +276,7 @@
             this.Controls.Add(this.labelName);
             this.Name = "FormWikiApplication";
             this.Text = "Wiki Application";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormWikiApplication_FormClosing);
             this.Load += new System.EventHandler(this.FormWikiApplication_Load);
             this.groupBoxStructure.ResumeLayout(false);
             this.groupBoxStructure.PerformLayout();
@@ -300,6 +308,7 @@
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonLoad;
         private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
 
