@@ -462,11 +462,6 @@ namespace WikiApplication_AT2
             }
         }
 
-        private void ButtonSave_MouseClick(object sender, MouseEventArgs e)
-        {
-            SaveFileDialog sfd = new SaveFileDialog();
-        }
-
         private string LoadWikiData(string loadFileName)
         {
             try
@@ -502,12 +497,66 @@ namespace WikiApplication_AT2
             return Path.GetFileName(loadFileName);
         }
 
-        private string SaveWikiData(string saveFileName)
+        private void ButtonSave_MouseClick(object sender, MouseEventArgs e)
         {
-            return "";
+            statusStrip.Items.Clear();
+            string savedFileName = "";
+
+            SaveFileDialog sfd = new SaveFileDialog();
+
+            sfd.Filter = "dat files (*.dat)|*.dat";
+            sfd.Title = "Save a DAT file";
+            sfd.InitialDirectory = Application.StartupPath;
+            sfd.AddExtension = true;
+            sfd.DefaultExt = "dat";
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                string fileName = sfd.FileName;
+                if (sfd.FileName != "")
+                {
+                    savedFileName = SaveWikiData(fileName);
+                }
+                else
+                {
+                    savedFileName = SaveWikiData(Application.StartupPath + DEFAULT_FILE_NAME);
+                }
+            }
+
+            if (savedFileName != "")
+            {
+                savedFileName = Path.GetFileName(savedFileName);
+
+                statusStrip.Items.Add("File " + savedFileName + " saved successfully");
+            }
         }
 
-
+        private string SaveWikiData(string saveFileName)
+        {
+            SortWiki();
+            try
+            {
+                using (Stream stream = File.Open(saveFileName, FileMode.Create))
+                {
+                    using (var writer = new BinaryWriter(stream, Encoding.UTF8, false))
+                    {
+                        foreach (var record in Wiki)
+                        {
+                            writer.Write(record.GetName());
+                            writer.Write(record.GetCategory());
+                            writer.Write(record.GetStructure());
+                            writer.Write(record.GetDefinition());
+                        }
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                Trace.TraceInformation(ex.ToString());
+                MessageBox.Show("File " + saveFileName + " was unable to be saved due to an IO Error. Please try again.", "Save IO Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return "";
+            }
+            return Path.GetFileName(saveFileName);
+        }
         #endregion
 
         // 6.15 The Wiki application will save data when the form closes.
