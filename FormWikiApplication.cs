@@ -51,9 +51,9 @@ namespace WikiApplication_AT2
 
                 /* Commit the class object to the Wiki */
                 Wiki.Add(addInformation);
+                ClearUIElements("record");
+                SortWiki();
             }
-            ClearUIElements("record");
-            SortWiki();
         }
 
         private bool CheckAllGUIElements()
@@ -76,8 +76,9 @@ namespace WikiApplication_AT2
             }
             else
             {
-                statusStrip.Items.Add("Record " + textBoxName.Text + " already exists.");
                 SearchRecord(textBoxName.Text);
+                statusStrip.Items.Clear();      /* Needed to clear statusStrip items from SearchRecord() */
+                statusStrip.Items.Add("Record " + textBoxName.Text + " already exists, the existing record is populated.");
                 // Add highlight code here
             }
             return false;
@@ -104,6 +105,15 @@ namespace WikiApplication_AT2
             {
                 Trace.TraceError(ex.Message);
                 return -1;
+            }
+        }
+
+        private void TextBoxName_TextChanged(object sender, EventArgs e)
+        {
+            if (System.Text.RegularExpressions.Regex.IsMatch(textBoxName.Text, "[\\d]"))
+            {
+                statusStrip.Items.Clear();
+                statusStrip.Items.Add("Please enter only letters");
             }
         }
 
@@ -164,11 +174,15 @@ namespace WikiApplication_AT2
         #region 6.5
         private bool ValidName(string newName)
         {
+            bool isValid = false;
+            Trace.TraceInformation("6.5 - ValidName string newName is: " + newName);
+            
             if (!Wiki.Exists(w => w.GetName() == newName))
             {
-                return true;
+                isValid = true;
             }
-            return false;
+            Trace.TraceInformation("6.5 - ValidName bool isValid: " + isValid);
+            return isValid;
         }
         #endregion
 
@@ -229,36 +243,42 @@ namespace WikiApplication_AT2
             statusStrip.Items.Clear();
             string deletedRecordName = "";
             int selectedRecord = GetSelectedIndex();
+            Trace.TraceInformation("6.7 - ButtonDelete_MouseClick string selectedRecord is " + selectedRecord);
             if (selectedRecord != -1)
             {
                 deletedRecordName = Wiki[selectedRecord].GetName();
+                Trace.TraceInformation("6.7 - ButtonDelete_MouseClick string deletedRecordName is " + deletedRecordName);
                 var userDecision = MessageBox.Show("Are you sure you want to delete the selected record " + deletedRecordName + "?",
                     "Confirm record deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                Trace.TraceInformation("6.7 - ButtonDelete_MouseClick var userDecision is " + userDecision);
 
                 if (userDecision == DialogResult.Yes)
                 {
                     try
                     {
-                        
                         Wiki.RemoveAt(selectedRecord);
-                        statusStrip.Items.Add("Record " + deletedRecordName + " sucessfully deleted");
+                        statusStrip.Items.Add("Record " + deletedRecordName + " successfully deleted");
+                        Trace.TraceInformation("6.7 - Record " + deletedRecordName + " successfully deleted");
                     }
                     catch (ArgumentOutOfRangeException ex)
                     {
                         Trace.TraceError(ex.ToString());
                         statusStrip.Items.Add("Please select a valid record to delete");
+                        Trace.TraceInformation("6.7 - Please select a valid record to delete");
                     }
                 }
                 /* Record not deleted */
                 else
                 {
                     statusStrip.Items.Add("Record " + deletedRecordName + " not deleted");
+                    Trace.TraceInformation("6.7 - Record " + deletedRecordName + " not deleted");
                 }
             }
             /* No record selected */
             else
             {
                 statusStrip.Items.Add("No valid record selected");
+                Trace.TraceInformation("6.7 - No valid record selected");
             }
             SortWiki();
         }
@@ -269,7 +289,7 @@ namespace WikiApplication_AT2
         // Display an updated version of the sorted list at the end of this process.
         #region 6.8
         private void ButtonEdit_MouseClick(object sender, MouseEventArgs e)
-        {
+        {            
             statusStrip.Items.Clear();
             string oldName;
             string newName;
@@ -291,11 +311,13 @@ namespace WikiApplication_AT2
                     if (oldName != newName)
                     {
                         statusStrip.Items.Add("Record " + oldName + " edited and renamed to " + newName);
+                        Trace.TraceInformation("6.8 - Record " + oldName + " edited and renamed to " + newName);
                     }
                     /* Record name unchanged */
                     else
                     {
                         statusStrip.Items.Add("Record " + oldName + " edited");
+                        Trace.TraceInformation("6.8 - Record " + oldName + " edited");
                     }
                 }
                 catch (ArgumentOutOfRangeException ex)
@@ -309,10 +331,12 @@ namespace WikiApplication_AT2
                 if (Wiki.Count > 0)
                 {
                     statusStrip.Items.Add("Please select a record to edit");
+                    Trace.TraceInformation("6.8 - Please select a record to edit");
                 }
                 else
                 {
                     statusStrip.Items.Add("Please add a record to the wiki");
+                    Trace.TraceInformation("6.8 - Please add a record to the wiki");
                 }
             }
             SortWiki();
@@ -632,6 +656,8 @@ namespace WikiApplication_AT2
         // Ensure your code is compliant with the CITEMS coding standards (refer http://www.citems.com.au/).
         #region 6.16
         /* Mouse Enter methods to display tooltips over GUI elements*/
+        bool isToolTipsEnabled = false;
+
         private void TextBoxName_MouseEnter(object sender, EventArgs e)
         {
             DisplayToolTip("Enter the Data Structure Name here, or double click on this text box to clear all fields for this record.", textBoxName);
@@ -703,34 +729,45 @@ namespace WikiApplication_AT2
         }
 
         /* Tooltip utilities */
-        private void DisplayToolTip(string message, TextBox textbox)
+        private void DisplayToolTip(string message, TextBox tb)
         {
-            toolTip.SetToolTip(textbox, message);
+            if (isToolTipsEnabled)
+            {
+                toolTip.SetToolTip(tb, message);
+            }
         }
 
         private void DisplayToolTip(string message, ComboBox cb)
         {
-            toolTip.SetToolTip(cb, message);
+            if (isToolTipsEnabled)
+            {
+                toolTip.SetToolTip(cb, message);
+            }
         }
 
-        private void DisplayToolTip(string message, RadioButton rd)
+        private void DisplayToolTip(string message, RadioButton rdb)
         {
-            toolTip.SetToolTip(rd, message);
+            if (isToolTipsEnabled)
+            {
+                toolTip.SetToolTip(rdb, message);
+            }
         }
 
-        private void DisplayToolTip(string message, ListView listView)
+        private void DisplayToolTip(string message, ListView lv)
         {
-            toolTip.SetToolTip(listView, message);
+            if (isToolTipsEnabled)
+            {
+                toolTip.SetToolTip(lv, message);
+            }
         }
 
-        private void DisplayToolTip(string message, Button button)
+        private void DisplayToolTip(string message, Button btn)
         {
-            toolTip.SetToolTip(button, message);
+            if (isToolTipsEnabled)
+            {
+                toolTip.SetToolTip(btn, message);
+            }
         }
-
-
         #endregion
-
-        
     }
 }
