@@ -225,6 +225,7 @@
             this.buttonSave.TabIndex = 14;
             this.buttonSave.Text = "SAVE";
             this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ButtonSave_MouseClick);
             // 
             // buttonLoad
             // 
@@ -234,6 +235,7 @@
             this.buttonLoad.TabIndex = 15;
             this.buttonLoad.Text = "LOAD";
             this.buttonLoad.UseVisualStyleBackColor = true;
+            this.buttonLoad.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ButtonLoad_MouseClick);
             // 
             // statusStrip
             // 

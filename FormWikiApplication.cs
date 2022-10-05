@@ -431,11 +431,82 @@ namespace WikiApplication_AT2
         {
             ClearUIElements();
         }
+
         #endregion
 
         // 6.14 Create two buttons for the manual open and save option; this must use a dialog box to select a file or rename a saved file.
         // All Wiki data is stored/retrieved using a binary reader/writer file format.
         #region 6.14
+        const string DEFAULT_FILE_NAME = "WikiData.dat";
+
+        private void ButtonLoad_MouseClick(object sender, MouseEventArgs e)
+        {
+            statusStrip.Items.Clear();
+            string loadedFileName = "";
+
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.InitialDirectory = Application.StartupPath;
+            ofd.Filter = "dat files (*.dat)|*.dat";
+            ofd.Title = "Open a DAT file";
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                loadedFileName = LoadWikiData(ofd.FileName);
+
+                if (loadedFileName != "")
+                {
+                    loadedFileName = Path.GetFileName(loadedFileName);
+
+                    statusStrip.Items.Add("File " + loadedFileName + " loaded successfully");
+                }
+            }
+        }
+
+        private void ButtonSave_MouseClick(object sender, MouseEventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+        }
+
+        private string LoadWikiData(string loadFileName)
+        {
+            try
+            {
+                Wiki.Clear();
+                using (Stream stream = File.Open(loadFileName, FileMode.Open))
+                {
+                    using (var reader = new BinaryReader(stream, Encoding.UTF8, false))
+                    {
+                        while (stream.Position < stream.Length)
+                        {
+                            Information addInformation = new Information();
+
+                            /* Set the new Information object's attributes */
+                            addInformation.SetName(reader.ReadString());
+                            addInformation.SetCategory(reader.ReadString());
+                            addInformation.SetStructure(reader.ReadString());
+                            addInformation.SetDefinition(reader.ReadString());
+
+                            /* Commit the class object to the Wiki */
+                            Wiki.Add(addInformation);
+                        }
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                Trace.TraceInformation(ex.ToString());
+                MessageBox.Show("File " + loadFileName + " was unable to be loaded due to an IO Error. Please try again.", "Load IO Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return "";
+            }
+            DisplayList();
+            return Path.GetFileName(loadFileName);
+        }
+
+        private string SaveWikiData(string saveFileName)
+        {
+            return "";
+        }
+
 
         #endregion
 
@@ -450,7 +521,5 @@ namespace WikiApplication_AT2
         #region 6.16
 
         #endregion
-
-
     }
 }
