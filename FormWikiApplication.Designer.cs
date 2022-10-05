@@ -69,7 +69,7 @@
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(182, 20);
             this.textBoxName.TabIndex = 1;
-            this.textBoxName.TextChanged += new System.EventHandler(this.TextBoxName_TextChanged);
+            this.textBoxName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxName_KeyPress);
             this.textBoxName.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.TextBoxName_MouseDoubleClick);
             this.textBoxName.MouseEnter += new System.EventHandler(this.TextBoxName_MouseEnter);
             // 
@@ -142,6 +142,7 @@
             this.textBoxDefinition.Name = "textBoxDefinition";
             this.textBoxDefinition.Size = new System.Drawing.Size(239, 214);
             this.textBoxDefinition.TabIndex = 6;
+            this.textBoxDefinition.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxDefinition_KeyPress);
             this.textBoxDefinition.MouseEnter += new System.EventHandler(this.TextBoxDefinition_MouseEnter);
             // 
             // labelSearch
@@ -159,6 +160,7 @@
             this.textBoxSearch.Name = "textBoxSearch";
             this.textBoxSearch.Size = new System.Drawing.Size(287, 20);
             this.textBoxSearch.TabIndex = 8;
+            this.textBoxSearch.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxSearch_KeyPress);
             this.textBoxSearch.MouseEnter += new System.EventHandler(this.TextBox_MouseEnter);
             // 
             // buttonSearch

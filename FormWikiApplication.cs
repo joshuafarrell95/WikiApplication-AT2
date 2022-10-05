@@ -108,15 +108,34 @@ namespace WikiApplication_AT2
             }
         }
 
-        private void TextBoxName_TextChanged(object sender, EventArgs e)
+        private void TextBoxName_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (System.Text.RegularExpressions.Regex.IsMatch(textBoxName.Text, "[\\d]"))
-            {
-                statusStrip.Items.Clear();
-                statusStrip.Items.Add("Please enter only letters");
-            }
+            FilterInput(e);
         }
 
+
+        private void TextBoxDefinition_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            FilterInput(e);
+        }
+
+        private void TextBoxSearch_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            FilterInput(e);
+        }
+
+        private void FilterInput(KeyPressEventArgs e)
+        {
+            char c = e.KeyChar;
+            
+            /* Only allow letters and punctuation */
+            if (!char.IsLetter(c) && !char.IsPunctuation(c))
+            {
+                e.Handled = true;
+                statusStrip.Items.Clear();
+                statusStrip.Items.Add("");
+            }
+        }
         #endregion
 
         // 6.4 Create a custom method to populate the ComboBox when the Form Load method is called. The six categories must be read from a simple text file.
@@ -656,7 +675,7 @@ namespace WikiApplication_AT2
         // Ensure your code is compliant with the CITEMS coding standards (refer http://www.citems.com.au/).
         #region 6.16
         /* Mouse Enter methods to display tooltips over GUI elements*/
-        bool isToolTipsEnabled = false;
+        bool isToolTipsEnabled = true;
 
         private void TextBoxName_MouseEnter(object sender, EventArgs e)
         {
