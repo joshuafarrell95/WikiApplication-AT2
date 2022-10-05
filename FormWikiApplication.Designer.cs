@@ -158,6 +158,7 @@
             this.textBoxSearch.Name = "textBoxSearch";
             this.textBoxSearch.Size = new System.Drawing.Size(287, 20);
             this.textBoxSearch.TabIndex = 8;
+            this.textBoxSearch.MouseEnter += new System.EventHandler(this.TextBox_MouseEnter);
             // 
             // buttonSearch
             // 
@@ -168,6 +169,7 @@
             this.buttonSearch.Text = "SEARCH";
             this.buttonSearch.UseVisualStyleBackColor = true;
             this.buttonSearch.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ButtonSearch_MouseClick);
+            this.buttonSearch.MouseEnter += new System.EventHandler(this.ButtonSearch_MouseEnter);
             // 
             // listViewWiki
             // 
@@ -183,6 +185,8 @@
             this.listViewWiki.UseCompatibleStateImageBehavior = false;
             this.listViewWiki.View = System.Windows.Forms.View.Details;
             this.listViewWiki.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListViewWiki_MouseClick);
+            this.listViewWiki.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListViewWiki_MouseDoubleClick);
+            this.listViewWiki.MouseEnter += new System.EventHandler(this.ListViewWiki_MouseEnter);
             // 
             // columnHeaderName
             // 
@@ -203,6 +207,7 @@
             this.buttonAdd.Text = "ADD";
             this.buttonAdd.UseVisualStyleBackColor = true;
             this.buttonAdd.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ButtonAdd_MouseClick);
+            this.buttonAdd.MouseEnter += new System.EventHandler(this.ButtonAdd_MouseEnter);
             // 
             // buttonEdit
             // 
@@ -213,6 +218,7 @@
             this.buttonEdit.Text = "EDIT";
             this.buttonEdit.UseVisualStyleBackColor = true;
             this.buttonEdit.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ButtonEdit_MouseClick);
+            this.buttonEdit.MouseEnter += new System.EventHandler(this.ButtonEdit_MouseEnter);
             // 
             // buttonDelete
             // 
@@ -223,6 +229,7 @@
             this.buttonDelete.Text = "DELETE";
             this.buttonDelete.UseVisualStyleBackColor = true;
             this.buttonDelete.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ButtonDelete_MouseClick);
+            this.buttonDelete.MouseEnter += new System.EventHandler(this.ButtonDelete_MouseEnter);
             // 
             // buttonSave
             // 
@@ -233,6 +240,7 @@
             this.buttonSave.Text = "SAVE";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ButtonSave_MouseClick);
+            this.buttonSave.MouseEnter += new System.EventHandler(this.ButtonSave_MouseEnter);
             // 
             // buttonLoad
             // 
@@ -243,6 +251,7 @@
             this.buttonLoad.Text = "LOAD";
             this.buttonLoad.UseVisualStyleBackColor = true;
             this.buttonLoad.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ButtonLoad_MouseClick);
+            this.buttonLoad.MouseEnter += new System.EventHandler(this.ButtonLoad_MouseEnter);
             // 
             // statusStrip
             // 

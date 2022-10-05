@@ -381,10 +381,25 @@ namespace WikiApplication_AT2
         #region 6.11
         private void ListViewWiki_MouseClick(object sender, MouseEventArgs e)
         {
-            //int selectedIndex = GetSelectedIndex();
-
             WikiToUI(GetSelectedIndex());
-            //Trace.TraceInformation(selectedIndex.ToString());
+        }
+
+        private void ListViewWiki_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            statusStrip.Items.Clear();
+            
+            var userDecision = MessageBox.Show("Are you sure you want to delete all Wiki records?", "Confirm Wiki deletion", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+            
+            if (userDecision == DialogResult.OK)
+            {
+                Wiki.Clear();
+                ClearUIElements();
+            }
+            else
+            {
+                statusStrip.Items.Add("Wiki deletion was cancelled, no records were deleted.");
+            }
+            DisplayList();
         }
 
         private void WikiToUI(int ind)
@@ -614,6 +629,7 @@ namespace WikiApplication_AT2
         // Map the programming criteria and features to your code/methods by adding comments above the method signatures.
         // Ensure your code is compliant with the CITEMS coding standards (refer http://www.citems.com.au/).
         #region 6.16
+        /* Mouse Enter methods to display tooltips over GUI elements*/
         private void TextBoxName_MouseEnter(object sender, EventArgs e)
         {
             DisplayToolTip("Enter the Data Structure Name here, or double click on this text box to clear all fields for this record.", textBoxName);
@@ -641,6 +657,50 @@ namespace WikiApplication_AT2
             DisplayToolTip("Enter the Definition here.", textBoxDefinition);
         }
 
+        private void ButtonAdd_MouseEnter(object sender, EventArgs e)
+        {
+            DisplayToolTip("Click on this button to add a record to the Wiki.", buttonAdd);
+        }
+
+        private void ButtonEdit_MouseEnter(object sender, EventArgs e)
+        {
+            DisplayToolTip("Click on this button to edit a record to the Wiki.", buttonEdit);
+        }
+
+        private void ButtonDelete_MouseEnter(object sender, EventArgs e)
+        {
+            DisplayToolTip("Click on this button to delete a record from the Wiki.", buttonDelete);
+        }
+
+        private void TextBox_MouseEnter(object sender, EventArgs e)
+        {
+            DisplayToolTip("Enter a search term here, then click on the SEARCH button", textBoxSearch);
+        }
+
+        private void ButtonSearch_MouseEnter(object sender, EventArgs e)
+        {
+            DisplayToolTip("Enter a search term in the Search textbox, then click on this button.", buttonSearch);
+        }
+
+        private void ListViewWiki_MouseEnter(object sender, EventArgs e)
+        {
+            DisplayToolTip("Click on a record to display its contents.\r\n" +
+                "Double click to delete all records. ", listViewWiki);
+        }
+
+        private void ButtonLoad_MouseEnter(object sender, EventArgs e)
+        {
+            DisplayToolTip("Click on this button to load a wiki .dat file. \r\n" +
+                "This will open a standard load file dialog", buttonLoad);
+        }
+
+        private void ButtonSave_MouseEnter(object sender, EventArgs e)
+        {
+            DisplayToolTip("Click on this button to save a wiki .dat file. \r\n" +
+                "This will open a standard save file dialog", buttonSave);
+        }
+
+        /* Tooltip utilities */
         private void DisplayToolTip(string message, TextBox textbox)
         {
             toolTip.SetToolTip(textbox, message);
@@ -665,6 +725,10 @@ namespace WikiApplication_AT2
         {
             toolTip.SetToolTip(button, message);
         }
-        #endregion 
+
+
+        #endregion
+
+        
     }
 }
