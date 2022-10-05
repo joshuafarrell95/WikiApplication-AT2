@@ -49,7 +49,7 @@ namespace WikiApplication_AT2
                 /* Commit the class object to the Wiki */
                 Wiki.Add(addInformation);
             }
-            ClearTextBoxes("record");
+            ClearUIElements("record");
             SortWiki();
         }
 
@@ -79,27 +79,7 @@ namespace WikiApplication_AT2
             return false;
         }
 
-        private void ClearTextBoxes(string mode)
-        {
-            switch (mode)
-            {
-                case "all":
-                    ClearTextBoxes("record");
-                    ClearTextBoxes("search");
-                    break;
-                case "record":
-                    textBoxName.Clear();
-                    textBoxDefinition.Clear();
-                    break;
-                case "search":
-                    textBoxSearch.Clear();
-                    break;
-                default:
-                    Trace.TraceError("ClearTextBoxes() method requires the mode to be set to either \r\n" +
-                        "\"all\", \"record\" or \"search\"");
-                    break;
-            }
-        }
+        
 
         private void DisplayList()
         {
@@ -110,12 +90,6 @@ namespace WikiApplication_AT2
                 lvi.SubItems.Add(information.GetCategory());
                 listViewWiki.Items.Add(lvi);
             }
-        }
-
-        private void ListViewWiki_MouseClick(object sender, MouseEventArgs e)
-        {
-            int selectedIndex = GetSelectedIndex();
-            Trace.TraceInformation(selectedIndex.ToString());
         }
 
         private int GetSelectedIndex()
@@ -218,6 +192,16 @@ namespace WikiApplication_AT2
             return rbValue;
         }
 
+        /* Default method to reset all radio buttons */
+        private void SetStructureRadioButton()
+        {
+            foreach (RadioButton rb in groupBoxStructure.Controls.OfType<RadioButton>())
+            {
+                rb.Checked = false;
+            }
+        }
+
+        /* Overloaded method to set the radio button */
         private void SetStructureRadioButton(int ind)
         {
             foreach (RadioButton rb in groupBoxStructure.Controls.OfType<RadioButton>())
@@ -387,9 +371,18 @@ namespace WikiApplication_AT2
                 textBoxSearch.Focus();
             }
         }
-
-
         #endregion
+
+        // 6.11 Create a ListView event so a user can select a Data Structure Name from the list of Names
+        // and the associated information will be displayed in the related text boxes combo box and radio button.
+        #region 6.11
+        private void ListViewWiki_MouseClick(object sender, MouseEventArgs e)
+        {
+            //int selectedIndex = GetSelectedIndex();
+
+            WikiToUI(GetSelectedIndex());
+            //Trace.TraceInformation(selectedIndex.ToString());
+        }
 
         private void WikiToUI(int ind)
         {
@@ -398,7 +391,66 @@ namespace WikiApplication_AT2
             SetStructureRadioButton(ind);
             textBoxDefinition.Text = Wiki[ind].GetDefinition();
         }
+        #endregion
 
-        
+        // 6.12 Create a custom method that will clear and reset the TextBoxes, ComboBox and Radio button
+        #region 6.12
+        private void ClearUIElements()
+        {
+            ClearUIElements("all");
+        }
+
+        private void ClearUIElements(string mode)
+        {
+            switch (mode)
+            {
+                case "all":
+                    ClearUIElements("record");
+                    ClearUIElements("search");
+                    break;
+                case "record":
+                    textBoxName.Clear();
+                    comboBoxCategory.Text = "";
+                    SetStructureRadioButton();
+                    textBoxDefinition.Clear();
+                    break;
+                case "search":
+                    textBoxSearch.Clear();
+                    break;
+                default:
+                    //Trace.TraceError("ClearTextBoxes() method requires the mode to be set to either \r\n" +
+                    //    "\"all\", \"record\" or \"search\"");
+                    break;
+            }
+        }
+        #endregion
+
+        // 6.13 Create a double click event on the Name TextBox to clear the TextBboxes, ComboBox and Radio button.
+        #region 6.13
+        private void TextBoxName_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ClearUIElements();
+        }
+        #endregion
+
+        // 6.14 Create two buttons for the manual open and save option; this must use a dialog box to select a file or rename a saved file.
+        // All Wiki data is stored/retrieved using a binary reader/writer file format.
+        #region 6.14
+
+        #endregion
+
+        // 6.15 The Wiki application will save data when the form closes.
+        #region 6.15
+
+        #endregion
+
+        // 6.16 All code is required to be adequately commented.
+        // Map the programming criteria and features to your code/methods by adding comments above the method signatures.
+        // Ensure your code is compliant with the CITEMS coding standards (refer http://www.citems.com.au/).
+        #region 6.16
+
+        #endregion
+
+
     }
 }

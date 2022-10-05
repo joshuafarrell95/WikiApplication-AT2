@@ -67,6 +67,7 @@
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(182, 20);
             this.textBoxName.TabIndex = 1;
+            this.textBoxName.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.TextBoxName_MouseDoubleClick);
             // 
             // labelCategory
             // 
