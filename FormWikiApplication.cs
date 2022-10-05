@@ -66,11 +66,12 @@ namespace WikiApplication_AT2
                     !string.IsNullOrEmpty(radioButtonNonLinear.Text)) &&
                     !string.IsNullOrEmpty(textBoxDefinition.Text))
                 {
+                    statusStrip.Items.Add("Record " + textBoxName.Text + " added to Wiki.");
                     return true;
                 }
                 else
                 {
-                    statusStrip.Items.Add("Fill in all the details for Wiki");
+                    statusStrip.Items.Add("Fill in all the details for Wiki.");
                 }
             }
             else
@@ -81,8 +82,6 @@ namespace WikiApplication_AT2
             }
             return false;
         }
-
-        
 
         private void DisplayList()
         {
@@ -228,18 +227,21 @@ namespace WikiApplication_AT2
         private void ButtonDelete_MouseClick(object sender, MouseEventArgs e)
         {
             statusStrip.Items.Clear();
-            
+            string deletedRecordName = "";
             int selectedRecord = GetSelectedIndex();
             if (selectedRecord != -1)
             {
-                var userDecision = MessageBox.Show("Are you sure you want to delete the selected record " + Wiki[selectedRecord].GetName() + "?",
+                deletedRecordName = Wiki[selectedRecord].GetName();
+                var userDecision = MessageBox.Show("Are you sure you want to delete the selected record " + deletedRecordName + "?",
                     "Confirm record deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (userDecision == DialogResult.Yes)
                 {
                     try
                     {
+                        
                         Wiki.RemoveAt(selectedRecord);
+                        statusStrip.Items.Add("Record " + deletedRecordName + " sucessfully deleted");
                     }
                     catch (ArgumentOutOfRangeException ex)
                     {
@@ -250,7 +252,7 @@ namespace WikiApplication_AT2
                 /* Record not deleted */
                 else
                 {
-                    statusStrip.Items.Add("Record " + Wiki[selectedRecord].GetName() + " not deleted");
+                    statusStrip.Items.Add("Record " + deletedRecordName + " not deleted");
                 }
             }
             /* No record selected */
@@ -345,18 +347,18 @@ namespace WikiApplication_AT2
                 findInfo.SetName(searchString);
                 int foundIndex = Wiki.BinarySearch(findInfo);
 
+                /* If Search string is found, highlight and populate the record */
                 if (foundIndex >= 0)
                 {
                     listViewWiki.SelectedItems.Clear();
-                    listViewWiki.Items[foundIndex].Selected = true;
                     listViewWiki.Focus();
+                    listViewWiki.Items[foundIndex].Selected = true;
 
                     textBoxName.Text = Wiki[foundIndex].GetName();
                     comboBoxCategory.Text = Wiki[foundIndex].GetCategory();
                     SetStructureRadioButton(foundIndex);
                     textBoxDefinition.Text = Wiki[foundIndex].GetDefinition();
 
-                    // Add highlight code here
                     statusStrip.Items.Add(searchString + " found and highlighted");
                 }
                 /* Not found */
