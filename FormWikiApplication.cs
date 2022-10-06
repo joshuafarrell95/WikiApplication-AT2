@@ -108,7 +108,6 @@ namespace WikiApplication_AT2
             FilterInput(e);
         }
 
-
         private void TextBoxDefinition_KeyPress(object sender, KeyPressEventArgs e)
         {
             FilterInput(e);
@@ -121,6 +120,7 @@ namespace WikiApplication_AT2
 
         private void FilterInput(KeyPressEventArgs e)
         {
+            statusStrip.Items.Clear();
             char c = e.KeyChar;
             
             /* Only allow letters, punctuation, spaces, and the delete key */
@@ -133,7 +133,6 @@ namespace WikiApplication_AT2
                 string message = "Invalid character " + c + " filtered.";
                 Trace.TraceInformation("6.3 - FilterInput() - " + message);
 
-                statusStrip.Items.Clear();
                 statusStrip.Items.Add(message);
             }
         }
@@ -644,7 +643,7 @@ namespace WikiApplication_AT2
             {
                 message = "Are you sure you want to save your Wiki Application data before closing? \"Cancel\" will close this window without closing Wiki Application. \r\n\n" +
                 "If you click on \"Yes\", the wiki data will be saved as " + currentFileName +
-                "before this application closes.";
+                " before this application closes.";
                 isWikiNotEmpty = true;
             }
             /* Else if the Wiki is empty */
