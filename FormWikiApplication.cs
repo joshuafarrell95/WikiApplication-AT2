@@ -10,8 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-// Joshua, M153428
-// 5/10/2022
+// Joshua Farrell, M153428
+// 12/10/2022
 
 namespace WikiApplication_AT2
 {
@@ -128,8 +128,8 @@ namespace WikiApplication_AT2
         {
             char c = e.KeyChar;
             
-            /* Only allow letters, punctuation and spaces */
-            if ((!char.IsLetter(c) && !char.IsPunctuation(c)) && !char.IsSeparator(c))
+            /* Only allow letters, punctuation, spaces, and the delete key */
+            if (((!char.IsLetter(c) && !char.IsPunctuation(c)) && !char.IsSeparator(c)) && c != 0x0008)
             {
                 /* Handle the event and not print out the invalid character */
                 e.Handled = true;
