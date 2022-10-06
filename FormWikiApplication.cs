@@ -128,12 +128,18 @@ namespace WikiApplication_AT2
         {
             char c = e.KeyChar;
             
-            /* Only allow letters and punctuation */
-            if (!char.IsLetter(c) && !char.IsPunctuation(c))
+            /* Only allow letters, punctuation and spaces */
+            if ((!char.IsLetter(c) && !char.IsPunctuation(c)) && !char.IsSeparator(c))
             {
+                /* Handle the event and not print out the invalid character */
                 e.Handled = true;
+
+                /* Output a message to Trace (console) and statusStrip (user-facing) */
+                string message = "Invalid character " + c + " filtered.";
+                Trace.TraceInformation("6.3 - FilterInput() - " + message);
+
                 statusStrip.Items.Clear();
-                statusStrip.Items.Add("");
+                statusStrip.Items.Add(message);
             }
         }
         #endregion
