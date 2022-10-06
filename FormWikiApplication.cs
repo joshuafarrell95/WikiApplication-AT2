@@ -636,25 +636,31 @@ namespace WikiApplication_AT2
         private void FormWikiApplication_FormClosing(object sender, FormClosingEventArgs e)
         {
             string message = "";
+            var button = MessageBoxButtons.YesNoCancel;
+            string title = "Confirm Wiki Application closure?";
+
             bool isWikiNotEmpty = false;
 
+            /* If there is any Information object in the Wiki, offer to save it */
             if (Wiki.Count > 0)
             {
-                message = "Are you sure you want to close Wiki Application? \r\n" +
-                "The wiki data will be automatically saved as " + currentFileName + ".";
+                message = "Are you sure you want to save your Wiki Application data before closing? \r\n" +
+                "If you click on \"Yes\", the wiki data will be saved as " + currentFileName + "\r\n" +
+                "before this application closes.";
                 isWikiNotEmpty = true;
             }
+            /* Else if the Wiki is empty */
             else
             {
                 message = "Are you sure you want to close Wiki Application?";
+                button = MessageBoxButtons.OKCancel;
             }
-            string title = "Confirm Wiki Application closure?";
 
-            var userDecision = MessageBox.Show(message, title, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            var userDecision = MessageBox.Show(message, title, button, MessageBoxIcon.Question);
 
-            /* If the user clicks on OK, save the data before closing if there is at least one record, */
-            /* otherwise, don't save an empty Wiki */
-            if (userDecision == System.Windows.Forms.DialogResult.OK)
+            /* If the user clicks on Yes, save the data before closing if there is at least one record, */
+            /* otherwise, don't save the Wiki */
+            if (userDecision == DialogResult.Yes)
             {
                 if (isWikiNotEmpty)
                 {
@@ -668,11 +674,12 @@ namespace WikiApplication_AT2
                     }
                 }
             }
-            /* Else stop the form from closing */
-            else
+            /* Else stop the form from closing if Cancel is clicked */
+            else if (userDecision == DialogResult.Cancel)
             {
                 e.Cancel = true;
             }
+            /* Implicit else if No or OK is clicked, just close the form */
         }
         #endregion
 
