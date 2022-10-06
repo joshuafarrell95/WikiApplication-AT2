@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 // Joshua Farrell, M153428
@@ -79,7 +75,6 @@ namespace WikiApplication_AT2
                 SearchRecord(textBoxName.Text);
                 statusStrip.Items.Clear();      /* Needed to clear statusStrip items from SearchRecord() */
                 statusStrip.Items.Add("Record " + textBoxName.Text + " already exists, the existing record is populated.");
-                // Add highlight code here
             }
             return false;
         }
@@ -639,8 +634,8 @@ namespace WikiApplication_AT2
         private void FormWikiApplication_FormClosing(object sender, FormClosingEventArgs e)
         {
             string message = "";
-            var button = MessageBoxButtons.YesNoCancel;
             string title = "Confirm Wiki Application closure?";
+            var button = MessageBoxButtons.YesNoCancel;
 
             bool isWikiNotEmpty = false;
 
