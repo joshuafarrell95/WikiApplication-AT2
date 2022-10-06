@@ -507,6 +507,7 @@ namespace WikiApplication_AT2
         // All Wiki data is stored/retrieved using a binary reader/writer file format.
         #region 6.14
         const string DEFAULT_FILE_NAME = "WikiData.dat";
+        /* Use currentFileName as a pointer with the default name*/
         string currentFileName = DEFAULT_FILE_NAME;
 
         private void ButtonLoad_MouseClick(object sender, MouseEventArgs e)
@@ -584,10 +585,12 @@ namespace WikiApplication_AT2
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 string fileName = sfd.FileName;
+                /* If there is a valid file name, save the file */
                 if (sfd.FileName != "")
                 {
                     savedFileName = SaveWikiData(fileName);
                 }
+                /* Else, use the default file name "WikiData.dat" */
                 else
                 {
                     savedFileName = SaveWikiData(Application.StartupPath + DEFAULT_FILE_NAME);
@@ -644,8 +647,8 @@ namespace WikiApplication_AT2
             /* If there is any Information object in the Wiki, offer to save it */
             if (Wiki.Count > 0)
             {
-                message = "Are you sure you want to save your Wiki Application data before closing? \r\n" +
-                "If you click on \"Yes\", the wiki data will be saved as " + currentFileName + "\r\n" +
+                message = "Are you sure you want to save your Wiki Application data before closing? \"Cancel\" will close this window without closing Wiki Application. \r\n\n" +
+                "If you click on \"Yes\", the wiki data will be saved as " + currentFileName +
                 "before this application closes.";
                 isWikiNotEmpty = true;
             }
